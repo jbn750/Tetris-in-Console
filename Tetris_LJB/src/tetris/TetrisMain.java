@@ -7,35 +7,43 @@ import screen.GameScreen;
 public class TetrisMain {
 
 	public static String rankingName[] = {"손진원", "이현수", ""};
-	public static int rankingScore[] = {0, 17000, 0};
+	public static int rankingScore[] = {53100, 15700, 0};
+	
+	public String userName;
+	public int userScore;
+	public String tempRankingName = "";
+	public int tempRankingScore = 0;
+	public boolean isRenewable = false; // 점수 갱신 유무
 	
 	public Scanner keyboard;
 	public String inputStr; // 입력문자
-	
-//	메뉴 화면
-	public void tetris() {
-//		rankingName[0] = "손진원";
-		while(true) {
-			firstScreen();
-			inputStr = keyboard.nextLine();
-			
-			if(inputStr.equalsIgnoreCase("start")) {
-				runTetris();
-			} else if(inputStr.equalsIgnoreCase("esc")) {
-				closeTetrisScreen();
-				return ;
-			} else if(inputStr.contentEquals("score")) {
-				getRanking();
-			}
-		}
-	}
 	
 	public TetrisMain() {
 		super();
 		keyboard = new Scanner(System.in);
 		// TODO Auto-generated constructor stub
 	}
-
+	
+//	메뉴 화면
+	public void tetris() {
+		while(true) {
+			firstScreen();
+			inputStr = keyboard.nextLine();
+//			게임 시작
+			if(inputStr.equalsIgnoreCase("start")) {
+				runTetris();
+//			명예의 전당
+			} else if(inputStr.contentEquals("score")) {
+				getRanking();
+				inputStr = keyboard.nextLine();
+//			게임 종료
+			} else if(inputStr.equalsIgnoreCase("esc")) {
+				closeTetrisScreen();
+				return ;
+			}
+		}
+	}
+	
 //	시작 화면
 	public void firstScreen() { 
 		System.out.println("=====================================");
@@ -46,14 +54,14 @@ public class TetrisMain {
 		System.out.println("	   Console창을 크기에 맞게");
 		System.out.println("		조절해주세요");
 		System.out.println("");
-		System.out.println("");
 		System.out.println("		게임시작");
 		System.out.println("		Start 입력");
 		System.out.println("");
+		System.out.println("		명예의 전당");
+		System.out.println("		Score 입력");
+		System.out.println("");
 		System.out.println("		게임종료");
 		System.out.println("		Esc 입력");
-		System.out.println("");
-		System.out.println("");
 		System.out.println("");
 		System.out.println("");
 		System.out.println("");
@@ -85,8 +93,60 @@ public class TetrisMain {
 		System.out.println("=====================================");
 	}
 	
+//	명예의 전당 화면
+	public void getRanking() {
+		System.out.println("=====================================");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		for (int i = 0; i < rankingName.length; i++) {
+			System.out.print("\t " + (i + 1) + "등 " + rankingName[i] + " " + rankingScore[i]);
+			System.out.println();
+			System.out.println();
+		}
+		System.out.println("");
+		System.out.println("");
+		System.out.println("\t   Press AnyKey");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("=====================================");
+	}
+	
+//	사용자 이름 입력 화면
+	public void setUserName() { 
+		System.out.println("=====================================");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("	        사용자 이름 입력");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("=====================================");
+	}
+	
+	
+	
 //	게임 작동
 	public void runTetris() {
+//		사용자 이름 입력
+		setUserName();
+		userName = keyboard.nextLine();
 		GameScreen gameScreen = new GameScreen();
 //		다음 블록 설정
 		gameScreen.setNextBlock();
@@ -138,13 +198,42 @@ public class TetrisMain {
 //			줄 제거
 			gameScreen.removeRows();
 		}
+		//점수 정렬
+		rankingSort();
+		
 //		게임오버 화면
-		gameScreen.gameOverScreen();
+		gameScreen.gameOverScreen(isRenewable);
 		inputStr = keyboard.nextLine();
-			
+		userScore = gameScreen.gameScore;
 	}
 	
-	public void getRanking() {
-		System.out.println("1등 " + rankingName + " " + rankingScore);
+//	순위 정렬
+	public void rankingSort() {
+		if(userScore > rankingScore[2]) {
+			rankingScore[2] = userScore;
+			rankingName[2] = userName;
+			isRenewable = true;
+			
+			if(rankingScore[2] > rankingScore[1]) {
+				tempRankingName = rankingName[1];
+				rankingName[1] = rankingName[2];
+				rankingName[2] = tempRankingName;
+				
+				tempRankingScore = rankingScore[1];
+				rankingScore[1] = rankingScore[2];
+				rankingScore[2] = tempRankingScore;
+				
+				if(rankingScore[1] > rankingScore[0]) {
+					tempRankingName = rankingName[0];
+					rankingName[0] = rankingName[1];
+					rankingName[1] = tempRankingName;
+					
+					tempRankingScore = rankingScore[0];
+					rankingScore[0] = rankingScore[1];
+					rankingScore[1] = tempRankingScore;
+				}
+			}
+		}
 	}
+	
 }

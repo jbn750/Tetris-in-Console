@@ -196,16 +196,20 @@ public class GameScreen extends ControlBlock{
 	}
 	
 	//게임오버 화면
-	public void gameOverScreen() {
+	public void gameOverScreen(boolean renewable) {
 		System.out.println("=====================================");
 		System.out.println("");
 		System.out.println("");
 		System.out.println("");
 		System.out.println("\t          게임오버");
 		System.out.println("");
-		System.out.println("");
 		System.out.println("\t         점수 : " + gameScore);
 		System.out.println("");
+		if(renewable) {
+			System.out.println("\t       ★★점수 갱신★★");			
+		}else {
+			System.out.println();
+		}
 		System.out.println("");
 		System.out.println("\t   Press AnyKey");
 		System.out.println("");
