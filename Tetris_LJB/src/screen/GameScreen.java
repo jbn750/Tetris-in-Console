@@ -211,7 +211,10 @@ public class GameScreen extends ControlBlock{
 			System.out.println();
 		}
 		System.out.println("");
+		System.out.println("");
 		System.out.println("\t   Press AnyKey");
+		System.out.println("");
+		System.out.println("");
 		System.out.println("");
 		System.out.println("");
 		System.out.println("");

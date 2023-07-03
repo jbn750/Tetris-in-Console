@@ -199,19 +199,19 @@ public class TetrisMain {
 			gameScreen.removeRows();
 		}
 		//점수 정렬
+		userScore = gameScreen.gameScore;
 		rankingSort();
 		
 //		게임오버 화면
 		gameScreen.gameOverScreen(isRenewable);
 		inputStr = keyboard.nextLine();
-		userScore = gameScreen.gameScore;
 	}
 	
 //	순위 정렬
 	public void rankingSort() {
 		if(userScore > rankingScore[2]) {
-			rankingScore[2] = userScore;
-			rankingName[2] = userName;
+			this.rankingScore[2] = userScore;
+			this.rankingName[2] = userName;
 			isRenewable = true;
 			
 			if(rankingScore[2] > rankingScore[1]) {
